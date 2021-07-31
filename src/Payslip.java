@@ -1,16 +1,19 @@
 import java.time.Month;
-import java.util.Date;
 
 public class Payslip {
 
     private double gross;
     private double net;
-    private double superRate;
+    private double sup;
     private int tax;
     private Month payPeriod;
 
     public Payslip(Month month, double annual, double superRate) {
-
+        this.payPeriod = month;
+        this.gross = Math.rint(annual / 12);
+        this.tax = getIncomeTax(annual);
+        this.net = Math.rint(gross - tax);
+        this.sup = Math.rint(gross * superRate);
     }
 
     public static int getIncomeTax(double annual) {
@@ -37,4 +40,26 @@ public class Payslip {
 
         return (int) tax;
     }
+
+    public double getGross() {
+        return gross;
+    }
+
+    public double getNet() {
+        return net;
+    }
+
+    public double getSup() {
+        return sup;
+    }
+
+    public int getTax() {
+        return tax;
+    }
+
+    public Month getPayPeriod() {
+        return payPeriod;
+    }
+
+
 }
