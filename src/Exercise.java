@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Main {
+public class Exercise {
 
     public static int getIncomeTax(double annual) {
         double tax = 0;
