@@ -1,19 +1,25 @@
+import org.json.simple.JSONObject;
+
 import java.time.Month;
+import java.time.Year;
+import java.util.Calendar;
 
 public class Payslip {
+    private final String firstName, lastName;
+    private final int annualSalary, grossIncome, incomeTax, superAnnuation, netIncome;
+    private final Month paymentMonth;
+    private final double superRate;
 
-    private double gross;
-    private double net;
-    private double sup;
-    private int tax;
-    private Month payPeriod;
-
-    public Payslip(Month month, double annual, double superRate) {
-        this.payPeriod = month;
-        this.gross = Math.rint(annual / 12);
-        this.tax = getIncomeTax(annual);
-        this.net = Math.rint(gross - tax);
-        this.sup = Math.rint(gross * superRate);
+    public Payslip(String first, String last, int annual, int month, double superRater) {
+        this.firstName = first;
+        this.lastName = last;
+        this.annualSalary = annual;
+        this.paymentMonth = Month.of(month + 1);
+        this.superRate = superRater;
+        this.grossIncome = (int) Math.rint((double) annual / 12);
+        this.incomeTax = (int) Math.rint(getIncomeTax(annual));
+        this.superAnnuation = (int) Math.rint(grossIncome * superRater);
+        this.netIncome = (int) Math.rint(grossIncome - incomeTax);
     }
 
     public static int getIncomeTax(double annual) {
@@ -21,19 +27,14 @@ public class Payslip {
 
         if (annual <= 18200) {
             tax = annual / 12;
-            System.out.println("$0 - $18,200");
         } else if (annual <= 37000) {
             tax = Math.rint(((annual - 37000) * 0.19) / 12);
-            System.out.println("$18,201 - $37,000");
         } else if (annual <= 87000) {
             tax = Math.rint((3572 + (annual - 37000) * 0.325)/12);
-            System.out.println("$37,001 - $87,000");
         } else if (annual <= 180000) {
             tax = Math.rint((19822 + (annual - 87000) * 0.37)/12);
-            System.out.println("$87,001 - $180,000");
         } else if (annual >= 180001) {
             tax = Math.rint((54232 + (annual - 180000) * 0.45)/12);
-            System.out.println("$180,001 and over");
         } else {
             System.out.println("Incorrect Input, please try again later");
         }
@@ -41,25 +42,72 @@ public class Payslip {
         return (int) tax;
     }
 
-    public double getGross() {
-        return gross;
+    public JSONObject getJSONObject() {
+        JSONObject employeeDetails = new JSONObject();
+
+        //Employee:
+        employeeDetails.put("firstName", firstName);
+        employeeDetails.put("lastName", lastName);
+        employeeDetails.put("annualSalary", annualSalary);
+        employeeDetails.put("paymentMonth", paymentMonth.getValue()-1);
+        employeeDetails.put("superRate", superRate);
+
+        JSONObject payslip = new JSONObject();
+        payslip.put("employee", employeeDetails);
+        payslip.put("fromDate", String.format("%d %s", paymentMonth.minLength(), paymentMonth.name()));
+        payslip.put("toDate", String.format("%d %s", paymentMonth.length(Year.isLeap(Calendar.YEAR)), paymentMonth.name()));
+        payslip.put("grossIncome", grossIncome);
+        payslip.put("incomeTax", incomeTax);
+        payslip.put("superannuation", superAnnuation);
+        payslip.put("netIncome", netIncome);
+
+        return payslip;
     }
 
-    public double getNet() {
-        return net;
+    public double getSuperRate() {
+        return superRate;
     }
 
-    public double getSup() {
-        return sup;
+    public int getAnnualSalary() {
+        return annualSalary;
     }
 
-    public int getTax() {
-        return tax;
+    public Month getPaymentMonth() {
+        return paymentMonth;
     }
 
-    public Month getPayPeriod() {
-        return payPeriod;
+    public String getFirstName() {
+        return firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
 
+    public double getGrossIncome() {
+        return grossIncome;
+    }
+
+    public double getIncomeTax() {
+        return incomeTax;
+    }
+
+    public double getSuperAnnuation() {
+        return superAnnuation;
+    }
+
+    @Override
+    public String toString() {
+        return "Pay{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", annualSalary=" + annualSalary +
+                ", grossIncome=" + grossIncome +
+                ", incomeTax=" + incomeTax +
+                ", superAnnuation=" + superAnnuation +
+                ", netIncome=" + netIncome +
+                ", paymentMonth=" + paymentMonth +
+                ", superRate=" + superRate +
+                '}';
+    }
 }
