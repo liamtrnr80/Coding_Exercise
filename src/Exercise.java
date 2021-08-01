@@ -2,12 +2,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import javax.sound.midi.SysexMessage;
 import java.io.FileReader;
-import java.time.Month;
-import java.time.Year;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Exercise {
 
@@ -35,8 +33,19 @@ public class Exercise {
             e.printStackTrace();
         }
 
+        JSONArray employeeList = new JSONArray();
+
         for(Payslip slip : payslips) {
-            System.out.println(slip.toString());
+            employeeList.add(slip.getJSONArray());
+            System.out.println(slip.getJSONArray().toJSONString());
         }
+
+        try(FileWriter file = new FileWriter("src/result3.json")) {
+            file.write(employeeList.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -3,6 +3,7 @@ import org.json.simple.JSONObject;
 import java.time.Month;
 import java.time.Year;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 
 public class Payslip {
     private final String firstName, lastName;
@@ -30,11 +31,11 @@ public class Payslip {
         } else if (annual <= 37000) {
             tax = Math.rint(((annual - 37000) * 0.19) / 12);
         } else if (annual <= 87000) {
-            tax = Math.rint((3572 + (annual - 37000) * 0.325)/12);
+            tax = Math.rint((3572 + (annual - 37000) * 0.325) / 12);
         } else if (annual <= 180000) {
-            tax = Math.rint((19822 + (annual - 87000) * 0.37)/12);
+            tax = Math.rint((19822 + (annual - 87000) * 0.37) / 12);
         } else if (annual >= 180001) {
-            tax = Math.rint((54232 + (annual - 180000) * 0.45)/12);
+            tax = Math.rint((54232 + (annual - 180000) * 0.45) / 12);
         } else {
             System.out.println("Incorrect Input, please try again later");
         }
@@ -43,23 +44,23 @@ public class Payslip {
     }
 
     public JSONObject getJSONObject() {
-        JSONObject employeeDetails = new JSONObject();
 
         //Employee:
+        JSONObject employeeDetails = new JSONObject();
         employeeDetails.put("firstName", firstName);
         employeeDetails.put("lastName", lastName);
         employeeDetails.put("annualSalary", annualSalary);
-        employeeDetails.put("paymentMonth", paymentMonth.getValue()-1);
+        employeeDetails.put("paymentMonth", paymentMonth.getValue() - 1);
         employeeDetails.put("superRate", superRate);
 
-        JSONObject payslip = new JSONObject();
-        payslip.put("employee", employeeDetails);
-        payslip.put("fromDate", String.format("%d %s", paymentMonth.minLength(), paymentMonth.name()));
+        JSONObject payslip = new JSONObject(new LinkedHashMap());
         payslip.put("toDate", String.format("%d %s", paymentMonth.length(Year.isLeap(Calendar.YEAR)), paymentMonth.name()));
+        payslip.put("fromDate", String.format("01 %s", paymentMonth.name()));
         payslip.put("grossIncome", grossIncome);
         payslip.put("incomeTax", incomeTax);
         payslip.put("superannuation", superAnnuation);
         payslip.put("netIncome", netIncome);
+        payslip.put("employee", employeeDetails);
 
         return payslip;
     }
@@ -106,7 +107,7 @@ public class Payslip {
                 ", incomeTax=" + incomeTax +
                 ", superAnnuation=" + superAnnuation +
                 ", netIncome=" + netIncome +
-                ", paymentMonth=" + paymentMonth +
+                ", paymentMonth=" + paymentMonth.name() +
                 ", superRate=" + superRate +
                 '}';
     }

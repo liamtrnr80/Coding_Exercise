@@ -1,0 +1,31 @@
+[
+  {
+    "fromDate":"28 FEBRUARY",
+    "incomeTax":922,
+    "toDate":"28 FEBRUARY",
+    "netIncome":4082,
+    "grossIncome":5004,
+    "employee":
+    {
+      "firstName":"David",
+      "lastName":"Rudd",
+      "annualSalary":60050,
+      "paymentMonth":1,
+      "superRate":0.09
+    },
+    "superannuation":450},
+  {
+    "fromDate":"28 FEBRUARY",
+    "incomeTax":2669,
+    "toDate":"28 FEBRUARY",
+    "netIncome":7331,
+    "grossIncome":10000,
+    "employee":
+    {
+      "firstName":"Ryan",
+      "lastName":"Chen",
+      "annualSalary":120000,
+      "paymentMonth":1,
+      "superRate":0.1
+    },
+    "superannuation":1000}]

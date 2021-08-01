@@ -12,19 +12,5 @@
     "annualSalary":120000,
     "paymentMonth":1,
     "superRate":0.1
-  },
-  {
-    "firstName": "Monica",
-    "lastName": "Tan",
-    "annualSalary": 60050,
-    "paymentMonth": 3,
-    "superRate": 0.09
-  },
-  {
-    "firstName": "Brenda",
-    "lastName": "Tulu",
-    "annualSalary": 120000,
-    "paymentMonth": 3,
-    "superRate": 0.1
   }
 ]
