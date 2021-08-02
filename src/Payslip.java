@@ -29,7 +29,7 @@ public class Payslip {
         if (annual <= 18200) {
             tax = annual / 12;
         } else if (annual <= 37000) {
-            tax = Math.rint(((annual - 37000) * 0.19) / 12);
+            tax = Math.rint(((annual - 18200) * 0.19) / 12);
         } else if (annual <= 87000) {
             tax = Math.rint((3572 + (annual - 37000) * 0.325) / 12);
         } else if (annual <= 180000) {
